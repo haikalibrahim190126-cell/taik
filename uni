@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>VIRUS</title>
+<style>
+  body{background:#000;color:#f00;font-family:monospace;margin:0;height:100vh;overflow:hidden;}
+  .warn{position:absolute;font-size:14px;color:#f00;opacity:0.9;animation:blink 0.2s infinite;white-space:nowrap;}
+  @keyframes blink{50%{opacity:0.1;}}
+  #center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:10;background:rgba(0,0,0,0.9);padding:30px;border:3px solid #f00;border-radius:15px;}
+  h1{font-size:40px;animation:shake 0.2s infinite;}
+  @keyframes shake{25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+  button{margin-top:20px;padding:12px 30px;font-size:18px;background:#f00;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+</style>
+</head>
+<body>
+  <div id="center">
+    <h1>☠ VIRUS TERDETEKSI ☠</h1>
+    <p>Semua data Anda sedang dienkripsi...</p>
+    <p id="pct">0%</p>
+    <button id="btn">Hapus Virus</button>
+  </div>
+  <script>
+    const texts = ["SYSTEM HACKED","DATA ENCRYPTED","WARNING","VIRUS DETECTED","FILES CORRUPTED","ACCESS DENIED"];
+    const body = document.body;
+    // bikin banyak teks peringatan bertebaran
+    for(let i=0;i<60;i++){
+      const el = document.createElement('div');
+      el.className = 'warn';
+      el.textContent = texts[Math.floor(Math.random()*texts.length)];
+      el.style.top = Math.random()*100 + 'vh';
+      el.style.left = Math.random()*100 + 'vw';
+      el.style.fontSize = (10 + Math.random()*20) + 'px';
+      el.style.transform = 'rotate(' + (Math.random()*360) + 'deg)';
+      body.appendChild(el);
+    }
+    let p = 0;
+    const pct = document.getElementById('pct');
+    const t = setInterval(()=>{
+      p += Math.random()*4;
+      if(p >= 100) p = 100;
+      pct.textContent = Math.floor(p) + "% data terenkripsi";
+    }, 200);
+    if(navigator.vibrate) navigator.vibrate([500,200,500,200,500]);
+    document.getElementById('btn').onclick = ()=>{
+      clearInterval(t);
+      document.querySelectorAll('.warn').forEach(e=>e.remove());
+      document.getElementById('center').innerHTML =
+        "<h1 style='color:#0f0;animation:none'>🤣 PRANK!</h1>" +
+        "<p style='color:#fff;font-size:20px'>Santai, nggak ada virus.<br>Datamu aman semua 😄</p>" +
+        "<p style='color:#888;font-size:13px'>Jangan langsung percaya sama layar kayak gini ya.</p>";
+      document.body.style.background = "#111";
+    };
+  </script>
+</body>
+</html>
